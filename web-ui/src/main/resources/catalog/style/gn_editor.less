@@ -4,7 +4,24 @@
 form.gn-editor {
     /* Move each sub fieldset to the left */
     @editor-fieldset-padding-left: 5px;
-
+    
+    /**
+     * Make legend and attribute' well touch
+     */
+    fieldset > legend {
+        margin-bottom: 0px;
+    }
+    /**
+     * Make space on the following element of a well 
+     */
+    div.well + fieldset, div.well + div {
+        padding-top: 10px;
+    }
+    
+    div.well {
+        margin-bottom: 0px;
+    }
+    
     fieldset fieldset {
         padding-left: @editor-fieldset-padding-left;
     }
