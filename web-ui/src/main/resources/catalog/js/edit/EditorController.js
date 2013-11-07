@@ -11,11 +11,18 @@
 
   module.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
-        when('/', {
+        when('/metadata/:id', {
+          templateUrl: tplFolder + 'editor.html',
+          controller: 'GnEditorController'}).
+        when('/metadata/:id/tab/:tab', {
+          templateUrl: tplFolder + 'editor.html',
+          controller: 'GnEditorController'}).
+        when('/metadata/:id/tab/:tab/:displayAttributes', {
+          templateUrl: tplFolder + 'editor.html',
+          controller: 'GnEditorController'}).
+        otherwise({
           templateUrl: tplFolder + 'newMetadata.html',
-          controller: 'GnNewMetadataController'}).
-        otherwise({templateUrl: tplFolder + 'editor.html',
-          controller: 'GnEditorController'});
+          controller: 'GnNewMetadataController'});
   }]);
 
   /**
@@ -33,11 +40,12 @@
 
       var init = function() {
         // TODO: move parameter to the route parameter
-        $scope.metadataId = gnUtilityService.getUrlParameter('id');
+        $scope.metadataId = $routeParams.id;
+        //gnUtilityService.getUrlParameter('id');
         $scope.metadataUuid = gnUtilityService.getUrlParameter('uuid');
-        $scope.tab = gnUtilityService.getUrlParameter('tab');
-        $scope.displayAttributes =
-            gnUtilityService.getUrlParameter('displayAttributes') === 'true';
+        $scope.tab = $routeParams.tab;
+        //gnUtilityService.getUrlParameter('tab');
+        $scope.displayAttributes = $routeParams.displayAttributes === 'true';
 
         // TODO: Check requested metadata exist - return message if it happens
         // Would you like to create a new one ?
