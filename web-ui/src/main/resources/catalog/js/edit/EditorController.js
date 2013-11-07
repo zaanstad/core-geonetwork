@@ -14,7 +14,8 @@
         when('/', {
           templateUrl: tplFolder + 'newMetadata.html',
           controller: 'GnNewMetadataController'}).
-        otherwise({templateUrl: tplFolder + 'editor.html', controller: 'GnEditorController'});
+        otherwise({templateUrl: tplFolder + 'editor.html',
+          controller: 'GnEditorController'});
   }]);
 
   /**
