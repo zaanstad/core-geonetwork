@@ -10,9 +10,10 @@ goog.addDependency('../../components/category/CategoryDirective.js', ['gn_catego
 goog.addDependency('../../components/category/CategoryModule.js', ['gn_category'], ['gn_category_directive']);
 goog.addDependency('../../components/dv/GaugeDirective.js', ['gn_gauge_directive'], []);
 goog.addDependency('../../components/dv/GaugeModule.js', ['gn_gauge'], ['gn_gauge_directive']);
-goog.addDependency('../../components/edit/FieldsModule.js', ['gn_fields'], ['gn_editor_helper_directive', 'gn_field_duration_directive']);
+goog.addDependency('../../components/edit/FieldsModule.js', ['gn_fields'], ['gn_editor_helper_directive', 'gn_field_duration_directive', 'gn_template_field_directive']);
 goog.addDependency('../../components/edit/editorhelper/EditorHelperDirective.js', ['gn_editor_helper_directive'], []);
 goog.addDependency('../../components/edit/fieldduration/FieldDurationDirective.js', ['gn_field_duration_directive'], []);
+goog.addDependency('../../components/edit/templatefield/TemplateFieldDirective.js', ['gn_template_field_directive'], []);
 goog.addDependency('../../components/languageswitcher/LanguageSwitcherDirective.js', ['gn_language_switcher_directive'], []);
 goog.addDependency('../../components/languageswitcher/LanguageSwitcherModule.js', ['gn_language_switcher'], ['gn_language_switcher_directive']);
 goog.addDependency('../../components/metadatamanager/MetadataManagerModule.js', ['gn_metadata_manager'], ['gn_metadata_manager_service']);

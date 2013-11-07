@@ -50,6 +50,8 @@
                 <argument>--strict</argument>
                 <argument>-r</argument>
                 <argument>src/main/resources/catalog/js</argument>
+                <argument>-r</argument>
+                <argument>src/main/resources/catalog/components</argument>
               </arguments>
             </configuration>
           </execution>
@@ -68,6 +70,8 @@
                 <argument>-r</argument>
                 <!-- Each source file in this directory will be checked. -->
                 <argument>src/main/resources/catalog/js</argument>
+                <argument>-r</argument>
+                <argument>src/main/resources/catalog/components</argument>
               </arguments>
             </configuration>
           </execution>
