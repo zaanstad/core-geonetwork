@@ -27,21 +27,16 @@
 
 package org.fao.geonet.kernel;
 
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.Vector;
-
-import javax.xml.xpath.XPath;
-
-import jeeves.utils.Log;
-import jeeves.utils.Xml;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.jxpath.ri.parser.Token;
@@ -53,6 +48,8 @@ import org.fao.geonet.constants.Geonet.Namespaces;
 import org.fao.geonet.kernel.schema.MetadataAttribute;
 import org.fao.geonet.kernel.schema.MetadataSchema;
 import org.fao.geonet.kernel.schema.MetadataType;
+import org.fao.geonet.utils.Log;
+import org.fao.geonet.utils.Xml;
 import org.jaxen.JaxenException;
 import org.jaxen.SimpleNamespaceContext;
 import org.jaxen.jdom.JDOMXPath;
@@ -119,11 +116,11 @@ public class EditLib {
      */
 	public void addEditingInfo(String schema, Element md, int id, int parent) throws Exception {
         if(Log.isDebugEnabled(Geonet.EDITOR))
-            Log.debug(Geonet.EDITOR,"MD before editing infomation:\n" + jeeves.utils.Xml.getString(md));
+            Log.debug(Geonet.EDITOR,"MD before editing infomation:\n" + Xml.getString(md));
 		enumerateTree(md,id,parent);
 		expandTree(scm.getSchema(schema), md);
         if(Log.isDebugEnabled(Geonet.EDITOR))
-            Log.debug(Geonet.EDITOR,"MD after editing infomation:\n" + jeeves.utils.Xml.getString(md));
+            Log.debug(Geonet.EDITOR,"MD after editing infomation:\n" + Xml.getString(md));
 	}
 
     /**
