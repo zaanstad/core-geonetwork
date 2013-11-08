@@ -45,7 +45,7 @@
               }
             });
 
-            // Reset the snippet if no match were found
+            // Reset the snippet if no match were found TODO
             // which means that no value is defined
             element[0].innerHTML = '';
             if (updated) {

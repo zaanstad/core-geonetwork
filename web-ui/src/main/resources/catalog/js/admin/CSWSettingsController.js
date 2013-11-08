@@ -83,7 +83,7 @@
           $scope.cswConfig = data.record;
           angular.forEach($scope.cswConfig, function(value, key) {
             $scope.cswLanguages[$scope.cswConfig[key].langid] = true;
-            $scope.cswFields[$scope.cswConfig[key].field] = true;
+            $scope.cswFields[$scope.cswConfig[key].fieldname] = true;
           });
           loadSettings();
         }).error(function(data) {
@@ -93,7 +93,7 @@
 
       function loadCSWElementSetName() {
         $http.get('admin.config.csw.customelementset@json')
-          .success(function(data) {
+        .success(function(data) {
               if (data) {
                 $scope.cswElementSetName =
                     $.isArray(data.xpath) ? data.xpath : [data.xpath];
@@ -170,14 +170,14 @@
             //Filter only by field
             if (field !== '' &&
                 lang === '' &&
-                items[key].field === field) {
+                items[key].fieldname === field) {
               selected = true;
             }
             // Filter by both
             if (field !== '' &&
                 lang !== '' &&
                 items[key].langid === lang &&
-                items[key].field === field) {
+                items[key].fieldname === field) {
               selected = true;
             }
             // All

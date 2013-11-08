@@ -7,15 +7,14 @@ import java.net.URLConnection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jeeves.server.ProfileManager;
-import jeeves.utils.Log;
-import jeeves.utils.Xml;
+import jeeves.component.ProfileManager;
 
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.kernel.search.LuceneSearcher;
 import org.fao.geonet.languages.IsoLanguagesMapper;
+import org.fao.geonet.utils.Log;
+import org.fao.geonet.utils.Xml;
 import org.jdom.Element;
-import org.jdom.JDOMException;
 
 /**
  * These are all extension methods for calling from xsl docs.  Note:  All
@@ -39,7 +38,7 @@ public final class XslUtil
         String result = src.toString().replaceAll("'","\'").replaceAll("[><\n\r]", " ");
         return result;
     }
-
+    
     /**
      * Convert a serialized XML node in JSON
      * 
