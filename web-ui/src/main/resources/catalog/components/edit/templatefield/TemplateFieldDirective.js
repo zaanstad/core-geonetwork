@@ -34,17 +34,23 @@
           // Replace all occurence of {{fieldname}} by its value
           var generateSnippet = function() {
             var xmlSnippet = xmlSnippetTemplate, updated = false;
-            angular.forEach(fields, function(value) {
-              // console.log('{{' + value + '}} =
-              //                ' + $('#' + scope.id + "_" + value).val());
-              xmlSnippet = xmlSnippet.replace(
-                  '{{' + value + '}}',
-                  $('#' + scope.id + '_' + value).val());
-              updated = true;
+            angular.forEach(fields, function(field) {
+              var value = $('#' + scope.id + '_' + field).val() || '';
+              //  console.log('{{' + field + '}} = ' + value);
+              if (value !== undefined) {
+                xmlSnippet = xmlSnippet.replace(
+                    '{{' + field + '}}',
+                    value);
+                updated = true;
+              }
             });
+
             // Reset the snippet if no match were found
             // which means that no value is defined
-            element[0].innerHTML = updated ? xmlSnippet : '';
+            element[0].innerHTML = '';
+            if (updated) {
+              element[0].innerHTML = xmlSnippet;
+            }
           };
 
           // Register change event on each fields to be
@@ -59,8 +65,9 @@
           angular.forEach(values, function(value, key) {
             var selector = '#' + scope.id + '_' + fields[key];
             $(selector).val(value);
-            $(selector).trigger('change');
           });
+
+          generateSnippet();
         }
       };
     }]);

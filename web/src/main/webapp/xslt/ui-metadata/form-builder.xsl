@@ -133,12 +133,11 @@
                 </xsl:call-template>
                 
                 
-                
-                <div class="well well-sm gn-attr {if ($isDisplayingAttributes) then '' else 'hidden'}">
-                  <xsl:if test="$attributesSnippet">
+                <xsl:if test="$attributesSnippet">
+                  <div class="well well-sm gn-attr {if ($isDisplayingAttributes) then '' else 'hidden'}">
                     <xsl:copy-of select="$attributesSnippet"/>
-                  </xsl:if>
-                </div>
+                  </div>
+                </xsl:if>
               </div>
               <div class="col-lg-2 gn-control">
                 <xsl:if test="not($isDisabled)">
@@ -247,7 +246,61 @@
       data-ng-mouseleave="unhighlightRemove({$editInfo/@ref})"/>
 
   </xsl:template>
-
+  
+  
+  
+  <!-- Render element based on a template defined in config-editor.xml
+  -->
+  <xsl:template name="render-element-template-field">
+    <xsl:param name="name"/>
+    <xsl:param name="template"/>
+    <xsl:param name="isExisting"/>
+    <xsl:param name="id"/>
+    <xsl:param name="xpathFieldId" required="no" select="''"/>
+    <xsl:param name="keyValues" required="no"/>
+    
+    <!--<xsl:message>!render-element-template-field <xsl:copy-of select="$keyValues"/>
+      <xsl:value-of select="$name"/>/
+      <xsl:copy-of select="$template"/>/
+      <xsl:value-of select="$id"/>/
+      <xsl:value-of select="$isExisting"/>/
+      <xsl:value-of select="$id"/>
+    </xsl:message>-->
+    <div class="form-group">
+      <label class="col-lg-2 control-label">
+        <!-- TODO: get label i18n -->
+        <xsl:value-of select="$name"/>
+      </label>
+      <div class="col-lg-8">
+        <xsl:for-each select="$template/values/key">
+          <!-- Only display label if more than one key to match -->
+          <xsl:if test="count($template/values/key) > 1">
+            <label>
+              <xsl:value-of select="@label"/>
+            </label>
+          </xsl:if>
+          
+          <xsl:choose>
+            <xsl:when test="@use = 'textarea'">
+              <textarea class="form-control" id="{$id}_{@label}"></textarea>
+            </xsl:when>
+            <xsl:otherwise>
+              <input class="form-control" type="{@use}" value="" id="{$id}_{@label}"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:for-each>
+        
+        <xsl:if test="not($isExisting)">
+          <input class="form-control gn-debug" type="text" name="{$xpathFieldId}" value="{@xpath}"/>
+        </xsl:if>
+        <textarea class="form-control gn-debug" name="{$id}" data-gn-template-field="{$id}"
+          data-keys="{string-join($template/values/key/@label, '#')}"
+          data-values="{if ($keyValues) then string-join($keyValues/value, '#') else ''}">
+          <xsl:copy-of select="$template/snippet/*"/>
+        </textarea>
+      </div>
+    </div>
+  </xsl:template>
 
   <!--  
   Create form for an element which does not exist in the metadata record.

@@ -75,7 +75,9 @@
   <xsl:template name="evaluate-iso19139">
     <xsl:param name="base" as="node()"/>
     <xsl:param name="in"/>
-    <xsl:copy-of select="saxon:evaluate(concat('$p1/..', $in), $base)"/>
+   <!-- <xsl:message>in xml <xsl:copy-of select="$base"></xsl:copy-of></xsl:message>
+    <xsl:message>search for <xsl:copy-of select="$in"></xsl:copy-of></xsl:message>-->
+    <xsl:copy-of select="saxon:evaluate(concat('$p1', $in), $base)"/>
   </xsl:template>
 
 
