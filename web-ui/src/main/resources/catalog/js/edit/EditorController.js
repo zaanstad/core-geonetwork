@@ -3,10 +3,9 @@
 
   goog.require('gn_fields');
   goog.require('gn_new_metadata_controller');
-  goog.require('gn_utility_directive');
 
   var module = angular.module('gn_editor_controller',
-      ['gn_fields', 'gn_new_metadata_controller', 'gn_utility_directive']);
+      ['gn_fields', 'gn_new_metadata_controller']);
 
   var tplFolder = '../../catalog/templates/editor/';
 
