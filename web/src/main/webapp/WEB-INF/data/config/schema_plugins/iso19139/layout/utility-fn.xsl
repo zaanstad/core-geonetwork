@@ -2,6 +2,7 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gmd="http://www.isotc211.org/2005/gmd"
   xmlns:gn-fn-iso19139="http://geonetwork-opensource.org/xsl/functions/profiles/iso19139"
+  xmlns:gn-fn-metadata="http://geonetwork-opensource.org/xsl/functions/metadata"
   exclude-result-prefixes="#all">
 
 
@@ -42,16 +43,8 @@
     <!-- The element containing the value eg. gco:Date -->
     <xsl:param name="childName" as="xs:string?"/>
     
-    <xsl:variable name="childType" select="normalize-space($iso19139EditorConfiguration/editor/fields/for[@name = $childName]/@use)"/>
-    <xsl:variable name="type" select="normalize-space($iso19139EditorConfiguration/editor/fields/for[@name = $name]/@use)"/>
-    
     <xsl:value-of
-      select="if ($childType != '') 
-              then $childType 
-              else if ($type != '')
-                then $type 
-                else 'text'"
-    />
+      select="gn-fn-metadata:getFieldType($iso19139EditorConfiguration, $name, $childName)"/>
   </xsl:function>
 
 

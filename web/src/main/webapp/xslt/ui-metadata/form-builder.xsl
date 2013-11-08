@@ -204,7 +204,7 @@
     <!-- XPath is added as data attribute for client side references 
     to get help or inline editing ? -->
     <xsl:param name="xpath" required="no"/>
-    <xsl:param name="attributesSnippet" required="no"/>
+    <xsl:param name="attributesSnippet" required="no"><null/></xsl:param>
 
 
     <fieldset id="{concat('gn-el-', $editInfo/@ref)}">
@@ -331,7 +331,7 @@
   
   -->
   <xsl:template name="render-element-to-add">
-    <xsl:param name="label"/>
+    <xsl:param name="label" as="xs:string?"/>
     <xsl:param name="childEditInfo"/>
     <xsl:param name="parentEditInfo"/>
 
@@ -340,7 +340,9 @@
     <!-- This element is replaced by the content received when clicking add -->
     <div class="form-group" id="gn-el-{$id}">
       <label class="col-lg-2 control-label">
-        <xsl:value-of select="$label"/>
+        <xsl:if test="normalize-space($label) != ''">
+                <xsl:value-of select="$label"/>
+        </xsl:if>
       </label>
       <div class="col-lg-10">
         <xsl:choose>
@@ -349,8 +351,23 @@
                 is defined by the schema and optionaly overriden by
                 the schema suggestion.
                 
-                TODO: Could be nice to select a type by default - a recommended type -->
-          <xsl:when test="$childEditInfo/gn:choose">
+                TODO: Could be nice to select a type by default - a recommended type 
+                
+                If only one choice, make a simple button
+          -->
+          <xsl:when test="count($childEditInfo/gn:choose) = 1">
+                <xsl:for-each select="$childEditInfo/gn:choose">
+                  <xsl:variable name="label" select="gn-fn-metadata:getLabel($schema, @name, $labels)"/>
+                  
+                  <i type="button" class="btn fa fa-plus gn-add" 
+                  title="{$label/description}"
+                  data-ng-click="addChoice({$parentEditInfo/@ref}, '{concat($childEditInfo/@prefix, ':', $childEditInfo/@name)}', '{@name}', '{$id}', 'replaceWith');">
+                  </i>
+                </xsl:for-each>
+          </xsl:when>
+          <!-- 
+                If many choices, make a dropdown button -->
+          <xsl:when test="count($childEditInfo/gn:choose) > 1">
             <div class="btn-group">
               <button type="button" class="btn dropdown-toggle fa fa-plus gn-add" data-toggle="dropdown">
                 <span/>
@@ -363,7 +380,7 @@
                   <li title="{$label/description}">
                     <a
                       data-ng-click="addChoice({$parentEditInfo/@ref}, '{concat($childEditInfo/@prefix, ':', $childEditInfo/@name)}', '{@name}', '{$id}', 'before');">
-                     <xsl:value-of select="$label/label"/>
+                      <xsl:value-of select="$label/label"/>
                     </a>
                   </li>
                 </xsl:for-each>

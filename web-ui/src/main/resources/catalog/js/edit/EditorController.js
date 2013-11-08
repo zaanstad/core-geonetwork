@@ -156,7 +156,7 @@
       };
 
 
-      $scope.addChoice = function(ref, parent, name, insertRef) {
+      $scope.addChoice = function(ref, parent, name, insertRef, position) {
         // md.elem.add?id=1250&ref=41&name=gmd:presentationForm
         $http.get(buildEditUrlPrefix('md.element.add') +
                   '&ref=' + ref +
@@ -166,7 +166,7 @@
           var target = $('#gn-el-' + insertRef);
           var snippet = $(data);
 
-          target.replaceWith(snippet); // Replace
+          target[position || 'before'](snippet);
 
           $compile(snippet)($scope); // Compile
         }).error(function(data) {

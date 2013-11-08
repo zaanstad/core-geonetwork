@@ -142,16 +142,32 @@
 
 
 
-  <!-- Copy all elements and attributes excluding GeoNetwork elements. 
-    This could be useful to get the source XML when working on a metadocument.
+  <!-- Get field type based on editor configuration.
+  Search by element name or the child element name (the one
+  containing the value).
+  
+  The child element take priority if defined.
   -->
-  <xsl:template match="@*|node()[namespace-uri()!='http://www.fao.org/geonetwork']"
-    mode="geonet-cleaner">
-    <xsl:copy>
-      <xsl:copy-of select="@*[namespace-uri()!='http://www.fao.org/geonetwork']"/>
-      <xsl:apply-templates select="node()" mode="geonet-cleaner"/>
-    </xsl:copy>
-  </xsl:template>
+  <xsl:function name="gn-fn-metadata:getFieldType" as="xs:string">
+    <xsl:param name="configuration" as="node()"/>
+    <!-- The container element -->
+    <xsl:param name="name" as="xs:string"/>
+    <!-- The element containing the value eg. gco:Date -->
+    <xsl:param name="childName" as="xs:string?"/>
+    
+    <xsl:variable name="childType" select="normalize-space($configuration/editor/fields/for[@name = $childName]/@use)"/>
+    <xsl:variable name="type" select="normalize-space($configuration/editor/fields/for[@name = $name]/@use)"/>
+    
+    <xsl:value-of
+      select="if ($childType != '') 
+      then $childType 
+      else if ($type != '')
+      then $type 
+      else 'text'"
+    />
+  </xsl:function>
+
+
 
 
 
