@@ -185,6 +185,16 @@
           <xs:documentation>The element to search in for the geonet child.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:attribute name="ifNotExist">
+        <xs:annotation>
+          <xs:documentation>If the field is found and a geonet child also, the geonet child to add a new one is not displayed.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="true"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
     </xs:complexType>
   </xs:element>
   <xs:element name="template">
