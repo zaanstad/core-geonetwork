@@ -33,6 +33,9 @@ var GeoNetworkAdminGroupPage = function() {
   this.saveGroupButton = element(by.css('button[id="gn-btn-group-save"]'));
   this.deleteGroupButton = element(by.css('button[id="gn-btn-group-delete"]'));
 
+  // TODO: this is shared among all admin pages
+  this.statusTitle = element(by.css('.gn-info > h4'));
+  this.statusCloseButton = element(by.css('.gn-info > button'));
 
   this.get = function() {
     browser.get(this.route);
@@ -105,6 +108,18 @@ describe('GeoNetwork group administration page', function() {
       expect(groups[1].getText()).toEqual(adminGroupPage.groups.sample.eng);
     });
   });
+
+  // FIXME: We shouldn't be able to create groups with same name
+  //  it('should not allow to create another group with same name', function() {
+  //    adminGroupPage.get();
+  //    adminGroupPage.newGroupButton.click();
+  //    adminGroupPage.setGroup(adminGroupPage.groups.groupTest);
+  //    adminGroupPage.saveGroupButton.click();
+  //
+  //    expect(adminGroupPage.statusTitle.getText()).not.toEqual("");
+  //    adminGroupPage.statusCloseButton.click();
+  //  });
+
 
   it('should init translation with group name and save translation on update',
      function() {
