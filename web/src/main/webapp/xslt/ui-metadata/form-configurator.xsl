@@ -125,8 +125,16 @@
 
 
           <!-- Display the matching non existing child node with a + control to 
-          add it. -->
-          <xsl:if test="$nonExistingChildParent/*">
+          add it if :
+            * a gn:child element is found and the ifNotExist attribute is not set
+            in the editor configuration.
+            or
+            * a gn:child element is found, the matching node does not exist and
+            the ifNotExist attribute is set - restrict cardinality to 0..1 even
+            if element is 0..n in the schema.
+           -->
+          <xsl:if test="($nonExistingChildParent/* and not(@ifNotExist)) or 
+            ($nonExistingChildParent/* and count($nodes/*) = 0 and @ifNotExist)">
             <xsl:variable name="childName" select="@or"/>
 
             <xsl:for-each select="$nonExistingChildParent/*/gn:child[@name = $childName]">
@@ -157,7 +165,6 @@
           <xsl:variable name="template" select="template"/>
           
           <xsl:for-each select="$nodes/*">
-            <xsl:message>!<xsl:copy-of select="."/></xsl:message>
             <!-- Retrieve matching key values 
               CHECKME: if more than one node match
               Only text values are supported. Separator is #.

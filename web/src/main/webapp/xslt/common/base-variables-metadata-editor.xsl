@@ -12,4 +12,6 @@
   
   <xsl:variable name="showValidationErrors" select="/root/request/showvalidationerrors"/>
   
+  <!-- Default form field type is text input. -->
+  <xsl:variable name="defaultFieldType" select="'text'"/>
 </xsl:stylesheet>

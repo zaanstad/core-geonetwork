@@ -12,8 +12,11 @@
     <xsl:param name="config" as="node()"/>
 
     <xsl:variable name="currentView" select="$config/editor/views/view[tab/@id = $tab]"/>
-
-
+    
+    <div class="gn-scroll-spy" 
+      data-gn-scroll-spy="gn-editor-{$metadataId}" 
+      data-all-depth="{if ($isFlatMode) then 'true' else 'false'}"/>
+    
     <ul class="nav nav-pills">
 
       <!-- Make a tab switcher for all tabs of the current view -->

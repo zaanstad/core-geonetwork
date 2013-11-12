@@ -1,12 +1,18 @@
 (function() {
   goog.provide('gn_editor_controller');
 
+
+
+
+
   goog.require('gn_fields');
   goog.require('gn_new_metadata_controller');
+  goog.require('gn_scroll_spy');
   goog.require('gn_utility_directive');
 
   var module = angular.module('gn_editor_controller',
-      ['gn_fields', 'gn_new_metadata_controller', 'gn_utility_directive']);
+      ['gn_fields', 'gn_new_metadata_controller', 'gn_utility_directive',
+       'gn_scroll_spy']);
 
   var tplFolder = '../../catalog/templates/editor/';
 

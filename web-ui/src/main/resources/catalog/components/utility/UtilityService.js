@@ -16,6 +16,25 @@
     };
 
     /**
+     * Return true if element is in browser viewport
+     */
+    var isInView = function(elem) {
+      var docViewTop = $(window).scrollTop();
+      var docViewBottom = docViewTop + window.innerHeight;
+
+      var elemTop = parseInt($(elem).offset().top);
+      var elemBottom = parseInt(elemTop + $(elem).height());
+
+      return ( // bottom of element in view
+              elemBottom < docViewBottom &&
+              elemBottom > docViewTop) ||
+          // top of element in view
+          (elemTop > docViewTop && elemTop < docViewBottom) ||
+              // contains view
+              (elemTop < docViewTop && elemBottom > docViewBottom);
+    };
+
+    /**
        * Serialize form including unchecked checkboxes.
        * See http://forum.jquery.com/topic/jquery-serialize-unchecked-checkboxes
        */
@@ -141,6 +160,7 @@
     };
     return {
       scrollTo: scrollTo,
+      isInView: isInView,
       serialize: serialize,
       parseBoolean: parseBoolean,
       toCsv: toCsv,

@@ -163,7 +163,7 @@
       then $childType 
       else if ($type != '')
       then $type 
-      else 'text'"
+      else $defaultFieldType"
     />
   </xsl:function>
 

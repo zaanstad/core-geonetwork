@@ -31,10 +31,9 @@
   <!-- Dispatching to the profile mode according to the tab -->
   <xsl:template name="render-iso19139">
     <xsl:param name="base" as="node()"/>
-
+    
     <xsl:variable name="tabConfiguration"
       select="$iso19139EditorConfiguration/editor/views/view/tab[@id = $tab]/section"/>
-
     <xsl:if test="$service != 'md.element.add'">
       <xsl:call-template name="menu-builder">
         <xsl:with-param name="config" select="$iso19139EditorConfiguration"/>

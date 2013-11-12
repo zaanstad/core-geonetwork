@@ -52,3 +52,40 @@
 .gn-code{
   white-space:normal;
 }
+
+div.gn-scroll-spy {
+    position: fixed;
+    bottom: 0%;
+    left: 0px;
+    opacity: 0.7;
+    font-size: 80%;
+    
+    ul {
+        li {
+          a {
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-top: 1px;
+            padding-bottom: 1px;
+          }
+          ul {
+            li {
+                a {
+                    padding-top: 1px;
+                    padding-bottom: 1px;
+                    padding-left: 15px;
+                    font-size: 90%;
+                }
+            }
+            li.active > a {
+               font-weight: bold;
+            }
+          }
+        }
+        li.active > a {
+           font-weight: bold;
+           color: @brand-primary;
+           background-color: @navbar-default-brand-hover-bg;
+        }
+    }
+}

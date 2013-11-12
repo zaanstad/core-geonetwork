@@ -22,6 +22,9 @@
 	of the metadocument. Display in editing mode only and if 
   the editor mode is not flat mode. -->
   <xsl:template mode="mode-iso19139" match="gn:child" priority="2000">
+    <xsl:param name="schema" select="$schema" required="no"/>
+    <xsl:param name="labels" select="$labels" required="no"/>
+
     <!-- TODO: this should be common to all schemas -->
     <xsl:if test="$isEditing and 
       not($isFlatMode)">
@@ -37,7 +40,13 @@
 
   <!-- Visit all XML tree recursively -->
   <xsl:template mode="mode-iso19139" match="gmd:*|gmx:*|gml:*|srv:*|gts:*">
-    <xsl:apply-templates mode="mode-iso19139" select="*|@*"/>
+    <xsl:param name="schema" select="$schema" required="no"/>
+    <xsl:param name="labels" select="$labels" required="no"/>
+
+    <xsl:apply-templates mode="mode-iso19139" select="*|@*">
+      <xsl:with-param name="schema" select="$schema"/>
+      <xsl:with-param name="labels" select="$labels"/>
+    </xsl:apply-templates>
   </xsl:template>
 
   <!-- Boxed element -->
@@ -83,6 +92,8 @@
 		gmd:processStep|
 		gmd:lineage|
 		*[namespace-uri(.) != $gnUri and $isFlatMode = false() and gmd:*]">
+    <xsl:param name="schema" select="$schema" required="no"/>
+    <xsl:param name="labels" select="$labels" required="no"/>
     
     <xsl:variable name="xpath" select="gn-fn-metadata:getXPath(.)"/>
     <xsl:variable name="isoType" select="if (../@gco:isoType) then ../@gco:isoType else ''"/>
@@ -109,8 +120,13 @@
       <xsl:with-param name="xpath" select="$xpath"/>
       <xsl:with-param name="attributesSnippet" select="$attributes"/>
       <xsl:with-param name="subTreeSnippet">
-        <!-- Process child of those element -->
-        <xsl:apply-templates mode="mode-iso19139" select="*"/>
+        <!-- Process child of those element. Propagate schema
+        and labels to all subchilds (eg. needed like iso19110 elements
+        contains gmd:* child. -->
+        <xsl:apply-templates mode="mode-iso19139" select="*">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="labels" select="$labels"/>
+        </xsl:apply-templates>
       </xsl:with-param>
     </xsl:call-template>
 
@@ -123,6 +139,8 @@
     match="*[gco:CharacterString|gco:Date|gco:DateTime|gco:Integer|gco:Decimal|
 		gco:Boolean|gco:Real|gco:Measure|gco:Length|gco:Distance|gco:Angle|
 		gco:Scale|gco:RecordType|gmx:MimeFileType|gmd:URL]">
+    <xsl:param name="schema" select="$schema" required="no"/>
+    <xsl:param name="labels" select="$labels" required="no"/>
 
     <xsl:variable name="xpath" select="gn-fn-metadata:getXPath(.)"/>
     <xsl:variable name="isoType" select="if (../@gco:isoType) then ../@gco:isoType else ''"/>
@@ -253,9 +271,13 @@
   
   -->
   <xsl:template mode="mode-iso19139" priority="200" match="gmd:*[*/@codeList]|srv:*[*/@codeList]">
+    <xsl:param name="schema" select="$schema" required="no"/>
+    <xsl:param name="labels" select="$labels" required="no"/>
+    <xsl:param name="codelists" select="$iso19139codelists" required="no"/>
 
     <xsl:variable name="xpath" select="gn-fn-metadata:getXPath(.)"/>
     <xsl:variable name="isoType" select="if (../@gco:isoType) then ../@gco:isoType else ''"/>
+
 
     <xsl:call-template name="render-element">
       <xsl:with-param name="label"
