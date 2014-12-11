@@ -87,3 +87,26 @@ GeoNetwork.map.MAIN_MAP_OPTIONS = {
     controls: [],
     theme:null
 };
+
+Proj4js.defs["EPSG:28992"]="+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs";
+Proj4js.defs["EPSG:2154"]="+proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
+Proj4js.defs["EPSG:25831"]="+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs";
+GeoNetwork.map.PROJECTION="EPSG:28992";
+GeoNetwork.map.EXTENT=new OpenLayers.Bounds(-121595.2,280646.08,432347.84,645353.92);
+GeoNetwork.map.MAXEXTENT=new OpenLayers.Bounds(-285401.92,22598.08,595401.92,903401.92);
+GeoNetwork.map.RESOLUTIONS=[3440.64,1720.32,860.16,430.08,215.04,107.52,53.76,26.88,13.44,6.72,3.36,1.68,0.84];
+var matrixIds=[];
+var matrixIds2=[];
+for(var i=0;
+i<=13;
+++i){if(i<10){matrixIds[i]="0"+i;
+matrixIds2[i]="EPSG:28992:"+i
+}else{matrixIds[i]=""+i;
+matrixIds2[i]="EPSG:28992:"+i
+}}GeoNetwork.map.BACKGROUND_LAYERS=[
+new OpenLayers.Layer.WMTS({name:"BRT Achtergrondkaart",url:"http://geodata.nationaalgeoregister.nl/wmts?",isBaseLayer:true,matrixSet:"EPSG:28992",matrixIds:matrixIds2,layer:"brtachtergrondkaart",format:"image/png",style:"default",buffer:1}),
+new OpenLayers.Layer.WMTS({name:"PDOK-achtergrond luchtfoto",url:"http://geodata1.nationaalgeoregister.nl/luchtfoto/wmts",layer:"luchtfoto",matrixSet:"nltilingschema",matrixIds:matrixIds,format:"image/jpeg",style:"default",isBaseLayer:true}),
+new OpenLayers.Layer("Geen Ondergrond",{isBaseLayer:true,maxExtent:GeoNetwork.map.MAXEXTENT,resolutions:GeoNetwork.map.RESOLUTIONS})];
+GeoNetwork.map.MAP_OPTIONS={projection:GeoNetwork.map.PROJECTION,maxExtent:GeoNetwork.map.MAXEXTENT,restrictedExtent:GeoNetwork.map.EXTENT,resolutions:GeoNetwork.map.RESOLUTIONS,extent:GeoNetwork.map.EXTENT,center:new OpenLayers.LonLat(167968.51227,472246.725),controls:[]};
+GeoNetwork.map.MAIN_MAP_OPTIONS={projection:GeoNetwork.map.PROJECTION,maxExtent:GeoNetwork.map.MAXEXTENT,restrictedExtent:GeoNetwork.map.EXTENT,resolutions:GeoNetwork.map.RESOLUTIONS,center:new OpenLayers.LonLat(167968.51227,472246.725),controls:[]};
+GeoNetwork.GEOCODER_URL="http://geodata.nationaalgeoregister.nl/geocoder/Geocoder?";

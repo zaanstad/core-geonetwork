@@ -1,0 +1,30 @@
+<overrides xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="config-overrides.xsd">
+
+    <import file="/WEB-INF/config-overrides-gn-zaandam-props.xml"/>
+
+    <file name=".*/WEB-INF/config.xml">
+
+      <addXML xpath="appHandler">
+        <param name="geonetwork.dir" value="${geonetwork.dir}" />
+      </addXML>
+
+      <replaceXML xpath="resources">
+            <!-- The direct connection -->
+            <resource enabled="true">
+                <name>main-db</name>
+                <provider>jeeves.resources.dbms.ApacheDBCPool</provider>
+                <config>
+                    <user>${db.user}</user>
+                    <password>${db.pass}</password>
+                    <driver>${db.driver}</driver>
+                    <url>${db.url}</url>
+                    <poolSize>30</poolSize>
+                    <minIdle>0</minIdle>
+                    <maxIdle>10</maxIdle>
+                    <validationQuery>SELECT 1</validationQuery>
+                </config>
+            </resource>
+        </replaceXML>
+    </file>
+</overrides>

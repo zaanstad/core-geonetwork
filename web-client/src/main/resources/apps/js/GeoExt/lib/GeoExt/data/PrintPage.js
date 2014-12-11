@@ -288,12 +288,14 @@ GeoExt.data.PrintPage = Ext.extend(Ext.util.Observable, {
      *  Calculates the page bounds for a given scale.
      */
     calculatePageBounds: function(scale, units) {
-        var s = scale.get("value");
+        var s = 1000;
+		if (scale) s = scale.get("value");
         var f = this.feature;
         var geom = this.feature.geometry;
         var center = geom.getBounds().getCenterLonLat();
 
-        var size = this.printProvider.layout.get("size");
+        var size = {width:0,height:0};
+		if (this.printProvider.layout) size = this.printProvider.layout.get("size");
         var units = units ||
             (f.layer && f.layer.map && f.layer.map.getUnits()) ||
             "dd";

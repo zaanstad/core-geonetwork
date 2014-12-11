@@ -19,12 +19,12 @@ OpenLayers.ProxyHost = function(url){
     }
 };
 
-
-GeoNetwork.Util.defaultLocale = 'eng';
-// Restrict locales to a subset of languages
-//GeoNetwork.Util.locales = [
-//            ['fr', 'Français']
-//    ];
+GeoNetwork.Util.defaultLocale = 'dut';
+//Restrict locales to a subset of languages
+GeoNetwork.Util.locales = [
+            ['nl', 'Nederlands','dut'],
+  		    ['en', 'English','eng']
+    ];
 GeoNetwork.searchDefault = {
     activeMapControlExtent: false
 };

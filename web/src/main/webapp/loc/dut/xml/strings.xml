@@ -16,8 +16,8 @@
 	<tur>Türkçe</tur> <!-- Do not translate! -->
 	<pol>Polski</pol> <!-- Do not translate! -->
 
-	<otherValue>Other:</otherValue>
-	<warning>Warning</warning>
+	<otherValue>Overig:</otherValue>
+	<warning>Waarschuwing</warning>
 	<isAdmin>Is administrator ?</isAdmin>
 	<anyLanguage>Ongeacht welke taal</anyLanguage>
 	<nodata>Null</nodata>
@@ -33,8 +33,8 @@
 	<makeChanges>I really want to do this!</makeChanges>
 	<dontMakeChanges>By default, this operation will not make any changes to the database ie. it runs in test mode. Checking this box switches test mode off and changes will be made to the database.</dontMakeChanges>
 
-	<defaultStatusChangeMessage>No information</defaultStatusChangeMessage>
-	<createThesaurus>Create/Update Thesaurus</createThesaurus>
+	<defaultStatusChangeMessage>Geen informatie</defaultStatusChangeMessage>
+	<createThesaurus>Bijwerken Thesaurus</createThesaurus>
 	<thesaurusType>Thesaurus Type</thesaurusType>
 	<changeLogMessage>Change Log Message</changeLogMessage>
 	<status>Status</status>
@@ -1336,14 +1336,14 @@
 	<searchAllWords>Met al deze woorden</searchAllWords>
 	<searchWithoutWords>Zonder de woorden</searchWithoutWords>
 
-	<showMap>Show map</showMap>
-	<mapViewer>Map viewer</mapViewer>
+	<showMap>Toon kaart</showMap>
+	<mapViewer>Kaart viewer</mapViewer>
 
-	<uuid>Unique identifier</uuid>    
-	<mymetadata>mijn metadata</mymetadata>
-	<quickSearch>Quick search links</quickSearch>
-	<catalogueRecords>Catalogue metadata</catalogueRecords>
-	<harvestedRecords>Harvested metadata</harvestedRecords>
+	<uuid>Unieke identifier</uuid>    
+	<mymetadata>Mijn metadata</mymetadata>
+	<quickSearch>Snel zoeken links</quickSearch>
+	<catalogueRecords>Catalogus metadata</catalogueRecords>
+	<harvestedRecords>Gearveste metadata</harvestedRecords>
 	<catalogueTemplates>Catalogue templates</catalogueTemplates>
 	<addremove>Toevoegen / Verwijderen</addremove>
 	<enabled>Ingeschakeld</enabled>
@@ -1378,14 +1378,14 @@
 	
 	<virtualcswUpdateService>Update a CSW virtual server</virtualcswUpdateService>
 	
-	<virtualcswAny>Free text</virtualcswAny>
-	<virtualcswTitle>Title</virtualcswTitle>
-	<virtualcswAbstract>Abstract</virtualcswAbstract>
+	<virtualcswAny>Vrije tekst</virtualcswAny>
+	<virtualcswTitle>Titel</virtualcswTitle>
+	<virtualcswAbstract>Samenvatting</virtualcswAbstract>
 	<virtualcswKeywords>Keyword</virtualcswKeywords>
 	<virtualcswDenominator>Denominator</virtualcswDenominator>
-	<virtualcswCatalog>Catalog</virtualcswCatalog>
-	<virtualcswGroup>Group</virtualcswGroup>
-	<virtualcswCategory>Category</virtualcswCategory>
+	<virtualcswCatalog>Catalogus</virtualcswCatalog>
+	<virtualcswGroup>Groep</virtualcswGroup>
+	<virtualcswCategory>Categorie</virtualcswCategory>
 	<virtualcswType>Resource type</virtualcswType>
 
 	<customize-elementset>Aanpassen element in te stellen</customize-elementset>
@@ -1394,24 +1394,24 @@
 	<custom-elementset-revert>Om terug te keren naar de standaard ElementSetName = VOL reacties, verwijder alle elementen uit deze lijst.</custom-elementset-revert>
 	<custom-elementset-add>Toe te voegen element</custom-elementset-add>
 
-	<wmslayers>WMS layers</wmslayers>
+	<wmslayers>WMS lagen</wmslayers>
 	<formatter.admin>Metadata Formatter Admin</formatter.admin>
 	<formatter.admin.des>Administration UI for metadata formatting bundlers</formatter.admin.des>
 	<monitor>Monitor</monitor>
 	<concealed>Concealed</concealed>
-	<serviceNotAllowed>You do not have the correct permissions to access the following service {1}</serviceNotAllowed>
+	<serviceNotAllowed>U heeft onvoldoende rechten om de service {1} uit te voeren</serviceNotAllowed>
 	
-	<advancedOptions.show>show advanced options</advancedOptions.show>
-	<advancedOptions.hide>hide advanced options</advancedOptions.hide>
-	<latestDatasets>Latest</latestDatasets>
-	<popularDatasets>Popular</popularDatasets>
+	<advancedOptions.show>Geavanceerd</advancedOptions.show>
+	<advancedOptions.hide>Geavanceerd verbergen</advancedOptions.hide>
+	<latestDatasets>Laatste</latestDatasets>
+	<popularDatasets>Populaire</popularDatasets>
 	<filter>Filter</filter>
-	<welcome.text>Welcome to GeoNetwork</welcome.text>
+	<welcome.text>Welkom in het kaarten portaal van de gemeente Zaanstad</welcome.text>
 	<tag_label>Tags</tag_label>
-	<map_label>Map</map_label>
-  <about.text>About this site</about.text>
-  <signIn>Sign In</signIn>
-  <signOut>Sign Out</signOut>
+	<map_label>Kaart</map_label>
+    <about.text>Over deze site</about.text>
+    <signIn>Inloggen</signIn>
+    <signOut>Uitloggen</signOut>
 	<rss-button>RSS</rss-button>
-	<print-button>Print</print-button>
+	<print-button>Printen</print-button>
 </strings>

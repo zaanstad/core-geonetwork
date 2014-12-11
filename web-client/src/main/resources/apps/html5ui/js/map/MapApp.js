@@ -75,6 +75,8 @@ GeoNetwork.mapApp = function() {
             Ext.each(GeoNetwork.map.BACKGROUND_LAYERS, function(layer) {
                 map.addLayer(layer.clone());
             });
+			
+			map.zoomToMaxExtent();
         }
 
         map.events.register("click", map, function(e) {
@@ -152,6 +154,7 @@ GeoNetwork.mapApp = function() {
                 map2.addLayer(layer.clone());
             });
 
+			map.zoomToMaxExtent();
         }
 
         Ext.each(GeoNetwork.map.MAP_OPTIONS.controls_, function(control) {
@@ -1445,7 +1448,6 @@ GeoNetwork.mapApp = function() {
                 tbar : toolbar,
                 frame : false,
                 border : false,
-                margins : '2px 2px 2px 2px',
                 items : [ mapOverlay ]
             } ],
             listeners : {
@@ -1946,6 +1948,9 @@ GeoNetwork.mapApp = function() {
                 zoomStore = new GeoExt.data.ScaleStore({});
                 zoomStore.loadData(zooms);
 
+				
+				
+				
             } else {
                 zoomStore = new GeoExt.data.ScaleStore({
                     map : map

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<overrides>
+  <properties>
+    <db.user>postgres</db.user>
+    <db.pass>postgres</db.pass>
+    <db.driver>org.postgresql.Driver</db.driver>
+    <db.url>jdbc:postgresql://localhost:5432/zaandam</db.url>
+    <geonetwork.dir>c:\temp\zaandam</geonetwork.dir>
+  </properties>
+</overrides>
