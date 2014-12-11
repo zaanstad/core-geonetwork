@@ -19,7 +19,7 @@ OpenLayers.ProxyHost = function(url){
     }
 };
 
-GeoNetwork.Util.defaultLocale = 'dut';
+GeoNetwork.Util.defaultLocale = 'eng';
 //Restrict locales to a subset of languages
 GeoNetwork.Util.locales = [
             ['nl', 'Nederlands','dut'],
