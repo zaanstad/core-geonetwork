@@ -19,6 +19,7 @@ INSERT INTO CategoriesDes VALUES (1,'spa','Mapas & gráficos');
 INSERT INTO CategoriesDes VALUES (11,'spa','Z3950 Servers');
 INSERT INTO CategoriesDes VALUES (12,'spa','Registers');
 INSERT INTO CategoriesDes VALUES (13,'spa','Muestras físicas');
+INSERT INTO CategoriesDes VALUES (14,'spa','External');
 
 INSERT INTO GroupsDes VALUES (-1,'spa','Guest');
 INSERT INTO GroupsDes VALUES (0,'spa','Intranet');

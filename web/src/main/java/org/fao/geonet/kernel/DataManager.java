@@ -537,9 +537,11 @@ public class DataManager {
                     .select("SELECT id, name FROM MetadataCateg, Categories WHERE metadataId = ? AND categoryId = id ORDER BY id", id$)
                     .getChildren();
 
+            StringBuilder metadataCategories = new StringBuilder();
             for (Object category1 : categories) {
                 Element category = (Element) category1;
                 String categoryName = category.getChildText("name");
+                metadataCategories.append(categoryName).append(";");
                 moreFields.add(SearchManager.makeField("_cat", categoryName, true, true));
             }
 
@@ -577,7 +579,7 @@ public class DataManager {
                 }
                 moreFields.add(SearchManager.makeField("_valid", isValid, true, true));
             }
-            searchMan.index(schemaMan.getSchemaDir(schema), md, id, moreFields, isTemplate, title);
+            searchMan.index(schemaMan.getSchemaDir(schema), md, id, moreFields, isTemplate, title, metadataCategories.toString());
         }
         catch (Exception x) {
             Log.error(Geonet.DATA_MANAGER, "The metadata document index with id=" + id + " is corrupt/invalid - ignoring it. Error: " + x.getMessage());

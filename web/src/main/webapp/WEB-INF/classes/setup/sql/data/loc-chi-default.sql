@@ -19,6 +19,7 @@ INSERT INTO CategoriesDes VALUES (10,'chi','Other information resources');
 INSERT INTO CategoriesDes VALUES (11,'chi','Z3950 Servers');
 INSERT INTO CategoriesDes VALUES (12,'chi','Registers');
 INSERT INTO CategoriesDes VALUES (13,'chi','Physical Samples');
+INSERT INTO CategoriesDes VALUES (14,'chi','External');
 
 INSERT INTO GroupsDes VALUES (-1,'chi','Guest');
 INSERT INTO GroupsDes VALUES (0,'chi','Intranet');

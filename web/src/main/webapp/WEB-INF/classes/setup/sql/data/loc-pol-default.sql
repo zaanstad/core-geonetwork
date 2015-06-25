@@ -19,6 +19,7 @@ INSERT INTO CategoriesDes VALUES (10,'pol','Inne źródła informacji');
 INSERT INTO CategoriesDes VALUES (11,'pol','Serwery Z3950');
 INSERT INTO CategoriesDes VALUES (12,'pol','Rejestry');
 INSERT INTO CategoriesDes VALUES (13,'pol','Physical Samples');
+INSERT INTO CategoriesDes VALUES (14,'pol','External');
 
 INSERT INTO GroupsDes VALUES (-1,'pol','Gość');
 INSERT INTO GroupsDes VALUES (0,'pol','Intranet');

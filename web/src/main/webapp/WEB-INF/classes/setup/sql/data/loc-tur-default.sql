@@ -20,6 +20,7 @@ INSERT INTO CategoriesDes VALUES (10,'tur','Diğer bilgi kaynakları');
 INSERT INTO CategoriesDes VALUES (11,'tur','Z3950 Sunucular');
 INSERT INTO CategoriesDes VALUES (12,'tur','Kayıtlar');
 INSERT INTO CategoriesDes VALUES (13,'tur','Fiziksel Örnekleri');
+INSERT INTO CategoriesDes VALUES (14,'tur','External');
 
 
 INSERT INTO GroupsDes VALUES (-1,'tur','Misafir');
