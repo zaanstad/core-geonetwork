@@ -689,13 +689,13 @@ public class SearchManager {
 	 * @param title
 	 * @throws Exception
 	 */
-	public void index(String schemaDir, Element metadata, String id, List<Element> moreFields, String isTemplate, String title)
+	public void index(String schemaDir, Element metadata, String id, List<Element> moreFields, String isTemplate, String title, String metadataCategories)
             throws Exception {
         // Update spatial index first and if error occurs, record it to Lucene index
         indexGeometry(schemaDir, metadata, id, moreFields);
         
         // Update Lucene index
-        List<Pair<String, Pair<Document, List<CategoryPath>>>> docs = buildIndexDocument(schemaDir, metadata, id, moreFields, isTemplate, title, false);
+        List<Pair<String, Pair<Document, List<CategoryPath>>>> docs = buildIndexDocument(schemaDir, metadata, id, moreFields, isTemplate, title, metadataCategories, false);
         _indexWriter.deleteDocuments(new Term("_id", id));
         for( Pair<String, Pair<Document, List<CategoryPath>>> document : docs ) {
             _indexWriter.addDocument(document.one(), document.two().one(), document.two().two());
@@ -769,7 +769,7 @@ public class SearchManager {
      * @throws Exception
      */
      private List<Pair<String,Pair<Document, List<CategoryPath>>>> buildIndexDocument(String schemaDir, Element metadata, String id, 
-                                   List<Element> moreFields, String isTemplate, String title, 
+                                   List<Element> moreFields, String isTemplate, String title, String metadataCategories,
                                    boolean group) throws Exception
      {
         
@@ -793,7 +793,7 @@ public class SearchManager {
             if(Log.isDebugEnabled(Geonet.INDEX_ENGINE))
                 Log.debug(Geonet.INDEX_ENGINE, "Metadata to index:\n" + Xml.getString(metadata));
 
-            xmlDoc = getIndexFields(schemaDir, metadata);
+            xmlDoc = getIndexFields(schemaDir, metadata, metadataCategories);
 
             if(Log.isDebugEnabled(Geonet.INDEX_ENGINE))
                 Log.debug(Geonet.INDEX_ENGINE, "Indexing fields:\n" + Xml.getString(xmlDoc));
@@ -1159,7 +1159,7 @@ public class SearchManager {
      * @return
      * @throws Exception
      */
-    Element getIndexFields(String schemaDir, Element xml) throws Exception {
+    Element getIndexFields(String schemaDir, Element xml, String metadataCategories) throws Exception {
         Element documents = new Element("Documents");
         try {
             String defaultStyleSheet = new File(schemaDir, "index-fields.xsl").getAbsolutePath();
@@ -1167,6 +1167,7 @@ public class SearchManager {
             Map<String, String> params = new HashMap<String, String>();
             params.put("inspire", Boolean.toString(_inspireEnabled));
             params.put("thesauriDir", _thesauriDir);
+            params.put("metadataCategories", metadataCategories);
             Element defaultLang = Xml.transform(xml, defaultStyleSheet, params);
             if (new File(otherLocalesStyleSheet).exists()) {
                 @SuppressWarnings(value = "unchecked")

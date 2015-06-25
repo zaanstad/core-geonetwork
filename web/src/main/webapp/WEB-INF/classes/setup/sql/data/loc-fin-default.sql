@@ -19,6 +19,7 @@ INSERT INTO CategoriesDes VALUES (10,'fin','Other information resources');
 INSERT INTO CategoriesDes VALUES (11,'fin','Z3950 Servers');
 INSERT INTO CategoriesDes VALUES (12,'fin','Registers');
 INSERT INTO CategoriesDes VALUES (13,'fin','Fyysisiä näytteitä');
+INSERT INTO CategoriesDes VALUES (14,'fin','External');
 
 INSERT INTO GroupsDes VALUES (-1,'fin','Vierailija');
 INSERT INTO GroupsDes VALUES (0,'fin','Intranet');

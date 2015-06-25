@@ -27,7 +27,8 @@
 
   <xsl:param name="thesauriDir"/>
   <xsl:param name="inspire">false</xsl:param>
-  
+	<xsl:param name="metadataCategories"></xsl:param>
+
   <xsl:variable name="inspire-thesaurus" select="if ($inspire!='false') then document(concat('file:///', $thesauriDir, '/external/thesauri/theme/inspire-theme.rdf')) else ''"/>
   <xsl:variable name="inspire-theme" select="if ($inspire!='false') then $inspire-thesaurus//skos:Concept else ''"/>
   
@@ -49,7 +50,18 @@
 
 			<Field name="_docLocale" string="{$isoLangId}" store="true" index="true"/>
 
-			
+			<!-- Zaanstad customisation: If the metadata has no category "extern", it's added automatically in the index the category "intern" -->
+			<xsl:variable name="metadataCategoriesList" select="tokenize($metadataCategories, ';')" />
+			<xsl:message>MC: <xsl:value-of select="$metadataCategories" /></xsl:message>
+			<xsl:message>MC2: <xsl:value-of select="index-of($metadataCategories, 'extern')" /></xsl:message>
+
+			<xsl:if test="every $catValue in tokenize($metadataCategories, ';')
+            satisfies $catValue != 'extern'">
+				<xsl:message>MC index intern</xsl:message>
+				<Field name="_cat" string="intern" store="true" index="true"/>
+			</xsl:if>
+			<!-- Zaanstad customisation -->
+
 			<xsl:variable name="_defaultTitle">
 				<xsl:call-template name="defaultTitle">
 					<xsl:with-param name="isoDocLangId" select="$isoLangId"/>

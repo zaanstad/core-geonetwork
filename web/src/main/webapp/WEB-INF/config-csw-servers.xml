@@ -36,6 +36,12 @@
                <param name="filter" value="+spatialRepresentationType:vector"/>
            </class>
         </service>
-        
+
+        <service name="csw-intern">
+          <class name=".services.main.CswDiscoveryDispatcher" >
+            <param name="filter" value="+_cat:intern"/>
+          </class>
+        </service>
+
     </services>
 </geonet>
