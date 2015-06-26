@@ -14,6 +14,11 @@
                 xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmd="http://www.isotc211.org/2005/gmd"
                 exclude-result-prefixes="gmd srv util">
 
+  <xsl:param name="baseUrl" select="''"/>
+  <xsl:param name="siteUrl" select="''"/>
+
+  <xsl:variable name="uuid" select="//gmd:MD_Metadata/gmd:fileIdentifier/gco:CharacterString" />
+
   <!-- Fix language code -->
   <xsl:template match="gmd:MD_Metadata/gmd:language">
     <xsl:choose>
@@ -208,6 +213,28 @@
         <gco:CharacterString>http://creativecommons.org/publicdomain/mark/1.0/deed.nl</gco:CharacterString>
       </gmd:otherConstraints>
     </gmd:MD_LegalConstraints>
+  </xsl:template>
+
+  <!-- Update thumbnail urls -->
+  <xsl:template match="gmd:MD_BrowseGraphic">
+    <xsl:copy>
+      <xsl:copy-of select="@*" />
+
+      <xsl:choose>
+        <xsl:when test="starts-with(gmd:fileName/gco:CharacterString, 'http')">
+          <xsl:apply-templates select="gmd:fileName"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <gmd:fileName>
+            <xsl:variable name="fname" select="gmd:fileName/gco:CharacterString" />
+            <gco:CharacterString><xsl:value-of select="concat($siteUrl, '/resources.get?uuid=', $uuid ,'&amp;fname=',$fname)" /></gco:CharacterString>
+          </gmd:fileName>
+        </xsl:otherwise>
+      </xsl:choose>
+
+      <xsl:apply-templates select="gmd:fileDescription"/>
+      <xsl:apply-templates select="gmd:fileType"/>
+    </xsl:copy>
   </xsl:template>
 
   <!-- ================================================================= -->
