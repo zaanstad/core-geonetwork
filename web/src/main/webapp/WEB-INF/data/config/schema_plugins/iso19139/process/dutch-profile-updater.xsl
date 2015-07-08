@@ -55,7 +55,26 @@
       <xsl:apply-templates select="gmd:resourceConstraints" />
       <xsl:apply-templates select="gmd:aggregationInfo" />
       <xsl:apply-templates select="gmd:spatialRepresentationType" />
-      <xsl:apply-templates select="gmd:spatialResolution" />
+
+      <xsl:choose>
+        <xsl:when test="gmd:spatialResolution">
+          <xsl:apply-templates select="gmd:spatialResolution" />
+        </xsl:when>
+        <xsl:otherwise>
+          <gmd:spatialResolution>
+            <gmd:MD_Resolution>
+              <gmd:equivalentScale>
+                <gmd:MD_RepresentativeFraction>
+                  <gmd:denominator>
+                    <gco:Integer>1500</gco:Integer>
+                  </gmd:denominator>
+                </gmd:MD_RepresentativeFraction>
+              </gmd:equivalentScale>
+            </gmd:MD_Resolution>
+          </gmd:spatialResolution>
+        </xsl:otherwise>
+      </xsl:choose>
+
       <xsl:apply-templates select="gmd:language" />
       <xsl:apply-templates select="gmd:characterSet" />
 
@@ -204,13 +223,21 @@
   </xsl:template>
 
   <!-- Restrictions -->
-  <xsl:template match="gmd:MD_LegalConstraints[starts-with(gmd:useLimitation/gco:CharacterString, 'Niet geschikt voor commercieel gebruik')]">
+  <xsl:template match="gmd:MD_LegalConstraints[not(string(gmd:useLimitation/gco:CharacterString)) or starts-with(gmd:useLimitation/gco:CharacterString, 'Niet geschikt voor commercieel gebruik')]">
     <gmd:MD_LegalConstraints>
+      <xsl:apply-templates select="gmd:useLimitation" />
+
       <gmd:accessConstraints>
         <gmd:MD_RestrictionCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_RestrictionCode" codeListValue="otherRestrictions"/>
       </gmd:accessConstraints>
+
+      <xsl:apply-templates select="gmd:useConstraints" />
+
       <gmd:otherConstraints>
-        <gco:CharacterString>http://creativecommons.org/publicdomain/mark/1.0/deed.nl</gco:CharacterString>
+        <gco:CharacterString>Niet voor commercieel gebruik en naamsvermelding verplicht; Gemeente Zaanstad</gco:CharacterString>
+      </gmd:otherConstraints>
+      <gmd:otherConstraints>
+        <gco:CharacterString>https://creativecommons.org/licenses/by-nc/4.0/</gco:CharacterString>
       </gmd:otherConstraints>
     </gmd:MD_LegalConstraints>
   </xsl:template>
