@@ -2,6 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
 	xmlns:gml="http://www.opengis.net/gml" xmlns:srv="http://www.isotc211.org/2005/srv"
 	xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:gco="http://www.isotc211.org/2005/gco"
+	xmlns:util="java:java.util.UUID"
 	xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="#all">
 
 	<xsl:include href="../iso19139/convert/functions.xsl"/>
@@ -220,6 +221,87 @@
 			<xsl:copy-of select="gmd:description"/>
 			<xsl:copy-of select="gmd:function"/>
 		</xsl:copy>
+	</xsl:template>
+
+
+	<!-- Add resource identifier -->
+	<xsl:template match="gmd:MD_DataIdentification/gmd:citation">
+		<xsl:choose>
+			<xsl:when test="count(gmd:CI_Citation/gmd:identifier[gmd:MD_Identifier/gmd:code/gco:CharacterString != '']) > 0">
+				<xsl:copy>
+					<xsl:copy-of select="@*" />
+					<xsl:apply-templates select="node()" />
+				</xsl:copy>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:copy>
+					<xsl:copy-of select="@*" />
+					<gmd:CI_Citation>
+						<xsl:apply-templates select="gmd:CI_Citation/gmd:title" />
+						<xsl:apply-templates select="gmd:CI_Citation/gmd:alternateTitle" />
+						<xsl:apply-templates select="gmd:CI_Citation/gmd:date" />
+						<xsl:apply-templates select="gmd:CI_Citation/gmd:edition" />
+						<xsl:apply-templates select="gmd:CI_Citation/gmd:editionDate" />
+
+						<xsl:apply-templates select="gmd:CI_Citation/gmd:identifier[not(gmd:MD_Identifier)]" />
+
+						<xsl:choose>
+							<!-- There's a gmd:code, keep it -->
+							<xsl:when test="string(gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString)">
+								<xsl:apply-templates select="gmd:identifier" />
+							</xsl:when>
+							<!-- No gmd:identifier -->
+							<xsl:when test="not(gmd:CI_Citation/gmd:identifier)">
+								<gmd:identifier>
+									<gmd:MD_Identifier>
+										<xsl:call-template name="AddCode"  />
+									</gmd:MD_Identifier>
+								</gmd:identifier>
+							</xsl:when>
+							<!-- No gmd:identifier with gmd:MD_Identifier -->
+							<xsl:when test="count(gmd:CI_Citation/gmd:identifier[gmd:MD_Identifier]) = 0">
+								<gmd:identifier>
+									<gmd:MD_Identifier>
+										<xsl:call-template name="AddCode"  />
+									</gmd:MD_Identifier>
+								</gmd:identifier>
+							</xsl:when>
+
+							<xsl:otherwise>
+								<xsl:apply-templates select="gmd:CI_Citation/gmd:identifier[gmd:MD_Identifier][position()!=1]" />
+
+								<xsl:for-each select="gmd:CI_Citation/gmd:identifier[gmd:MD_Identifier][1]">
+									<xsl:copy>
+										<xsl:copy-of select="@*" />
+										<xsl:for-each select="gmd:MD_Identifier">
+											<xsl:copy>
+												<xsl:copy-of select="@*" />
+												<xsl:apply-templates select="gmd:authority" />
+												<xsl:call-template name="AddCode"  />
+											</xsl:copy>
+										</xsl:for-each>
+									</xsl:copy>
+								</xsl:for-each>
+							</xsl:otherwise>
+						</xsl:choose>
+
+						<xsl:apply-templates select="gmd:CI_Citation/gmd:citedResponsibleParty" />
+						<xsl:apply-templates select="gmd:CI_Citation/gmd:presentationForm" />
+						<xsl:apply-templates select="gmd:CI_Citation/gmd:series" />
+						<xsl:apply-templates select="gmd:CI_Citation/gmd:otherCitationDetails" />
+						<xsl:apply-templates select="gmd:CI_Citation/gmd:collectiveTitle" />
+						<xsl:apply-templates select="gmd:CI_Citation/gmd:ISBN" />
+						<xsl:apply-templates select="gmd:CI_Citation/gmd:ISSN" />
+					</gmd:CI_Citation>
+				</xsl:copy>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template name="AddCode">
+		<gmd:code>
+			<gco:CharacterString><xsl:value-of select="util:toString(util:randomUUID())" /></gco:CharacterString>
+		</gmd:code>
 	</xsl:template>
 
 	<!-- ================================================================= -->

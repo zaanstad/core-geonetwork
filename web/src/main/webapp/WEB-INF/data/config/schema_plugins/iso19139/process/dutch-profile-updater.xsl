@@ -53,6 +53,17 @@
       <xsl:apply-templates select="gmd:descriptiveKeywords" />
       <xsl:apply-templates select="gmd:resourceSpecificUsage" />
       <xsl:apply-templates select="gmd:resourceConstraints" />
+
+      <xsl:if test="not(gmd:resourceConstraints/gmd:MD_Constraints)">
+        <gmd:resourceConstraints>
+          <gmd:MD_Constraints>
+            <gmd:useLimitation>
+              <gco:CharacterString>Geen beperkingen bekend</gco:CharacterString>
+            </gmd:useLimitation>
+          </gmd:MD_Constraints>
+        </gmd:resourceConstraints>
+      </xsl:if>
+
       <xsl:apply-templates select="gmd:aggregationInfo" />
       <xsl:apply-templates select="gmd:spatialRepresentationType" />
 
@@ -191,7 +202,7 @@
   </xsl:template>
 
   <!-- Set default contact mail, if not set -->
-  <xsl:template match="gmd:contact/gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress">
+  <xsl:template match="gmd:contact/gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress|gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress|gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress">
     <xsl:choose>
       <xsl:when test="string(gco:CharacterString)">
         <xsl:copy>
@@ -223,6 +234,16 @@
   </xsl:template>
 
   <!-- Restrictions -->
+  <xsl:template match="gmd:MD_Constraints[not(string(gmd:useLimitation/gco:CharacterString))]">
+    <gmd:resourceConstraints>
+      <gmd:MD_Constraints>
+        <gmd:useLimitation>
+          <gco:CharacterString>Geen beperkingen bekend</gco:CharacterString>
+        </gmd:useLimitation>
+      </gmd:MD_Constraints>
+    </gmd:resourceConstraints>
+  </xsl:template>
+
   <xsl:template match="gmd:MD_LegalConstraints[not(string(gmd:useLimitation/gco:CharacterString)) or starts-with(gmd:useLimitation/gco:CharacterString, 'Niet geschikt voor commercieel gebruik')]">
     <gmd:MD_LegalConstraints>
       <xsl:apply-templates select="gmd:useLimitation" />
