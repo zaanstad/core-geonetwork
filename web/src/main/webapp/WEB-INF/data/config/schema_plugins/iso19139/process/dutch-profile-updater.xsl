@@ -211,8 +211,10 @@
       <xsl:apply-templates select="gmd:postalCode" />
       <xsl:apply-templates select="gmd:country" />
 
+      <xsl:variable name="countMails" select="count(gmd:electronicMailAddress[string(gco:CharacterString)])" />
+
       <xsl:choose>
-        <xsl:when test="string(gmd:electronicMailAddress/gco:CharacterString)">
+        <xsl:when test="$countMails > 0">
           <xsl:apply-templates select="gmd:electronicMailAddress" />
         </xsl:when>
         <xsl:otherwise>
