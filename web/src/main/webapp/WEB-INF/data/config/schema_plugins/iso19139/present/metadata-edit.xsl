@@ -2404,7 +2404,7 @@
     <xsl:param name="edit"/>
 
     
-    <xsl:if test="$edit=false()">
+    <!--xsl:if test="$edit=false()">
       <xsl:if test="count(gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource/gmd:protocol/gco:CharacterString[contains(string(.),'download')])>1 and
                   //geonet:info/download='true'">
         <xsl:call-template name="complexElementGui">
@@ -2427,7 +2427,7 @@
           <xsl:with-param name="schema" select="$schema"/>
         </xsl:call-template>
       </xsl:if>
-    </xsl:if>
+    </xsl:if-->
     <xsl:apply-templates mode="complexElement" select=".">
       <xsl:with-param name="schema" select="$schema"/>
       <xsl:with-param name="edit"   select="$edit"/>
@@ -2587,6 +2587,13 @@
         </xsl:apply-templates>
         
         <xsl:choose>
+			<xsl:when test="matches(gmd:protocol[1]/gco:CharacterString,'download') 
+            and string(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)!=''">
+            <xsl:apply-templates mode="iso19139FileRemove" select="gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType">
+              <xsl:with-param name="access" select="'private'"/>
+              <xsl:with-param name="id" select="$id"/>
+            </xsl:apply-templates>
+          </xsl:when>
           <xsl:when test="matches(gmd:protocol[1]/gco:CharacterString,'^WWW:DOWNLOAD-.*-http--download.*') 
             and string(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)!=''">
             <xsl:apply-templates mode="iso19139FileRemove" select="gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType">
@@ -2737,7 +2744,7 @@
   <!-- online resources: download -->
   <!-- ============================================================================= -->
 
-  <xsl:template mode="iso19139" match="gmd:CI_OnlineResource[matches(gmd:protocol/gco:CharacterString,'^WWW:DOWNLOAD-.*-http--download.*') and gmd:name]" priority="2">
+  <xsl:template mode="iso19139" match="gmd:CI_OnlineResource[string(gmd:protocol/gco:CharacterString)='download' and gmd:name]" priority="2">
     <xsl:param name="schema"/>
     <xsl:param name="edit"/>
     <xsl:variable name="download_check"><xsl:text>&amp;fname=&amp;access</xsl:text></xsl:variable>
