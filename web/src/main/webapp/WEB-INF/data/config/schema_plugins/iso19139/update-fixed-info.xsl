@@ -185,6 +185,15 @@
 	<!-- online resources: download -->
 	<!-- ================================================================= -->
 
+<xsl:template match="gmd:CI_OnlineResource[contains(gmd:protocol/gco:CharacterString,'OGC:WMS') and gmd:name]">
+	<xsl:copy>
+		<xsl:copy-of select="@*"/>
+	</xsl:copy>
+	<xsl:if test="not(../gmd:CI_OnlineResource[contains(gmd:protocol/gco:CharacterString,'OGC:WFS')])">
+		<gmd:online>hello</gmd:online>
+	</xsl:if>
+</xsl:template>
+
 	<xsl:template match="gmd:CI_OnlineResource[matches(gmd:protocol/gco:CharacterString,'^WWW:DOWNLOAD-.*-http--download.*') and gmd:name]">
 		<xsl:variable name="fname" select="gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType"/>
 		<xsl:variable name="mimeType">
