@@ -466,22 +466,49 @@
 			<xsl:for-each select="gmd:MD_DigitalTransferOptions">
 				<xsl:copy>
 					<xsl:copy-of select="@*" />
-					
-					<xsl:apply-templates select="gmd:onLine" />
-					
+
+					<!-- Copy all online resources except the ones with application/vnd.ogc.wms_xml protocol -->
+					<xsl:apply-templates select="gmd:onLine[normalize-space(gmd:CI_OnlineResource/gmd:protocol/gco:CharacterString) != 'application/vnd.ogc.wms_xml']" />
+
+					<!-- For each WMS with protocol application/vnd.ogc.wms_xml, fix the protocol to OGC:WMS -->
+					<xsl:for-each select="gmd:onLine[normalize-space(gmd:CI_OnlineResource/gmd:protocol/gco:CharacterString) = 'application/vnd.ogc.wms_xml']">
+						<xsl:copy>
+							<xsl:copy-of select="@*" />
+
+							<xsl:for-each select="gmd:CI_OnlineResource">
+								<xsl:copy>
+									<xsl:copy-of select="@*" />
+
+									<xsl:apply-templates select="gmd:linkage" />
+
+									<gmd:protocol>
+										<gco:CharacterString>OGC:WMS</gco:CharacterString>
+									</gmd:protocol>
+
+									<xsl:apply-templates select="gmd:applicationProfile" />
+									<xsl:apply-templates select="gmd:name" />
+									<xsl:apply-templates select="gmd:description" />
+									<xsl:apply-templates select="gmd:function" />
+								</xsl:copy>
+							</xsl:for-each>
+						</xsl:copy>
+					</xsl:for-each>
+
 					<!-- For each WMS, add WFS links if doesn't exists -->
-					<xsl:for-each select="gmd:onLine[normalize-space(gmd:CI_OnlineResource/gmd:protocol/gco:CharacterString) = 'OGC:WMS']">
+					<xsl:for-each select="gmd:onLine[normalize-space(gmd:CI_OnlineResource/gmd:protocol/gco:CharacterString) = 'application/vnd.ogc.wms_xml' or
+                                                     normalize-space(gmd:CI_OnlineResource/gmd:protocol/gco:CharacterString) = 'OGC:WMS']">
 						<xsl:variable name="layerName" select="normalize-space(gmd:CI_OnlineResource/gmd:name/gco:CharacterString)"/>
 						<xsl:variable name="wmsUrl" select="normalize-space(gmd:CI_OnlineResource/gmd:linkage/gmd:URL)"/>
-						
-							<xsl:variable name="qm"><xsl:if test="not(contains($wmsUrl,'?'))">?</xsl:if></xsl:variable>
+
+						<xsl:variable name="qm"><xsl:if test="not(contains($wmsUrl,'?'))">?</xsl:if></xsl:variable>
 						<xsl:variable name="wfsUrl" select="concat(replace(replace($wmsUrl, 'wms', 'wfs'), 'WMS', 'WFS'),$qm)"/>
+
 						<xsl:variable name="wfsCsvUrl" select="concat($wfsUrl, '&amp;version=1.0.0&amp;request=GetFeature&amp;typeName=', $layerName, '&amp;outputFormat=csv')"/>
 						<xsl:variable name="wfsShapeUrl" select="concat($wfsUrl, '&amp;version=1.0.0&amp;request=GetFeature&amp;typeName=', $layerName, '&amp;outputFormat=shape-zip')"/>
-						
-						<xsl:if test="count(//gmd:onLine[normalize-space(gmd:CI_OnlineResource/gmd:protocol/gco:CharacterString) = 'OGC:WFS' and 
-							normalize-space(gmd:CI_OnlineResource/gmd:linkage/gmd:URL) = $wfsUrl]) = 0">
-							<gmd:onLine>				
+
+						<xsl:if test="count(//gmd:onLine[normalize-space(gmd:CI_OnlineResource/gmd:protocol/gco:CharacterString) = 'OGC:WFS' and
+                            normalize-space(gmd:CI_OnlineResource/gmd:linkage/gmd:URL) = $wfsUrl]) = 0">
+							<gmd:onLine>
 								<gmd:CI_OnlineResource>
 									<gmd:linkage>
 										<gmd:URL><xsl:value-of select="$wfsUrl"/></gmd:URL>
@@ -489,15 +516,15 @@
 									<gmd:protocol>
 										<gco:CharacterString>OGC:WFS</gco:CharacterString>
 									</gmd:protocol>
-									<gmd:name><gco:CharacterString><xsl:value-of select="$layerName"/></gco:CharacterString>gco:CharacterString></gmd:name>
-									<gmd:description gco:nilReason="missing">			
+									<gmd:name><gco:CharacterString><xsl:value-of select="$layerName"/></gco:CharacterString></gmd:name>
+									<gmd:description gco:nilReason="missing">
 										<gco:CharacterString/>
 									</gmd:description>
 								</gmd:CI_OnlineResource>
 							</gmd:onLine>
 						</xsl:if>
-						
-						<xsl:if test="count(//gmd:onLine[normalize-space(gmd:CI_OnlineResource/gmd:protocol/gco:CharacterString) = 'download' and 
+
+						<xsl:if test="count(//gmd:onLine[normalize-space(gmd:CI_OnlineResource/gmd:protocol/gco:CharacterString) = 'download' and
 							normalize-space(gmd:CI_OnlineResource/gmd:linkage/gmd:URL) = $wfsCsvUrl]) = 0">
 							<gmd:onLine>
 								<gmd:CI_OnlineResource>
@@ -505,10 +532,10 @@
 										<gmd:URL><xsl:value-of select="$wfsCsvUrl"/></gmd:URL>
 									</gmd:linkage>
 									<gmd:protocol>
-										<gco:CharacterString>download</gco:CharacterString>	
+										<gco:CharacterString>download</gco:CharacterString>
 									</gmd:protocol>
-									<gmd:name>		
-										<gmx:MimeFileType type="text/csv">CSV</gmx:MimeFileType>		
+									<gmd:name>
+										<gmx:MimeFileType type="text/csv">CSV</gmx:MimeFileType>
 									</gmd:name>
 									<gmd:description gco:nilReason="missing">
 										<gco:CharacterString/>
@@ -516,8 +543,8 @@
 								</gmd:CI_OnlineResource>
 							</gmd:onLine>
 						</xsl:if>
-						
-						<xsl:if test="count(//gmd:onLine[normalize-space(gmd:CI_OnlineResource/gmd:protocol/gco:CharacterString) = 'download' and 
+
+						<xsl:if test="count(//gmd:onLine[normalize-space(gmd:CI_OnlineResource/gmd:protocol/gco:CharacterString) = 'download' and
 							normalize-space(gmd:CI_OnlineResource/gmd:linkage/gmd:URL) = $wfsShapeUrl]) = 0">
 							<gmd:onLine>
 								<gmd:CI_OnlineResource>
@@ -532,18 +559,18 @@
 									</gmd:name>
 									<gmd:description gco:nilReason="missing">
 										<gco:CharacterString/>
-									</gmd:description>						
+									</gmd:description>
 								</gmd:CI_OnlineResource>
 							</gmd:onLine>
 						</xsl:if>
 					</xsl:for-each>
-					
+
 				</xsl:copy>
 			</xsl:for-each>
 		</xsl:copy>
 	</xsl:template>
 
-<!-- ================================================================= -->
+	<!-- ================================================================= -->
 	<!-- copy everything else as is -->
 	
 	<xsl:template match="@*|node()">
