@@ -225,7 +225,7 @@
     <!-- List of host alloed to be accesed by the proxy: If not specified or empty, any hosts is allowed -->
     <init-param>
         <param-name>AllowedHosts</param-name>
-        <param-value />
+        <param-value>rijkswaterstaat.nl,rivm.nl,knmi.nl,tno.nl,cultureelerfgoed.nl,geodata.nationaalgeoregister.nl,nationaalgeoregister.nl,www.nationaalgeoregister.nl,geo.zaanstad.nl,zaanstad.nl</param-value>
     </init-param>
 
     <!-- Default proxy url if none is provided -->
