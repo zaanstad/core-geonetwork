@@ -202,20 +202,28 @@
   </xsl:template>
 
   <!-- Set default contact mail, if not set -->
-  <xsl:template match="gmd:contact/gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress|gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress|gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress">
-    <xsl:choose>
-      <xsl:when test="string(gco:CharacterString)">
-        <xsl:copy>
-          <xsl:copy-of select="@*" />
-          <xsl:apply-templates select="node()" />
-        </xsl:copy>
-      </xsl:when>
-      <xsl:otherwise>
-        <gmd:electronicMailAddress>
-          <gco:CharacterString>geo-informatie@zaanstad.nl</gco:CharacterString>
-        </gmd:electronicMailAddress>
-      </xsl:otherwise>
-    </xsl:choose>
+  <xsl:template match="gmd:contact/gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address|gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address|gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address">
+    <xsl:copy>
+      <xsl:copy-of select="@*" />
+      <xsl:apply-templates select="gmd:deliveryPoint" />
+      <xsl:apply-templates select="gmd:city" />
+      <xsl:apply-templates select="gmd:administrativeArea" />
+      <xsl:apply-templates select="gmd:postalCode" />
+      <xsl:apply-templates select="gmd:country" />
+
+      <xsl:variable name="countMails" select="count(gmd:electronicMailAddress[string(gco:CharacterString)])" />
+
+      <xsl:choose>
+        <xsl:when test="$countMails > 0">
+          <xsl:apply-templates select="gmd:electronicMailAddress" />
+        </xsl:when>
+        <xsl:otherwise>
+          <gmd:electronicMailAddress>
+            <gco:CharacterString>geo-informatie@zaanstad.nl</gco:CharacterString>
+          </gmd:electronicMailAddress>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
   </xsl:template>
 
   <!-- Update the protocol for WMS -->
